@@ -10,6 +10,7 @@ public class Shotgun : MonoBehaviour
     float shotLength = 10f;
     int amountOfShots = 10;
     float spreadDegrees = 15;
+    float bulletDamage = 1;
 
     public void Fire(){
         Vector3 pos = Input.mousePosition;
@@ -45,8 +46,8 @@ public class Shotgun : MonoBehaviour
     void CastRay(Vector3 dir){
         Ray ray = new Ray(transform.position, dir);
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, shotLength) && hitInfo.transform.gameObject.tag != "Player"){
-            Destroy(hitInfo.transform.gameObject);
+        if (Physics.Raycast(ray, out hitInfo, shotLength) && hitInfo.transform.gameObject.tag == "Enemy"){
+            hitInfo.transform.gameObject.GetComponentInChildren<Enemy>().DoDamage(bulletDamage);
         }
     }
 }

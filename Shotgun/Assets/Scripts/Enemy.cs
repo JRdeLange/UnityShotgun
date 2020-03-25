@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        print("starta");
+        
     }
 
     // Update is called once per frame
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Damage(float damage){
+    public void DoDamage(float damage){
         health -= damage;
     }
 

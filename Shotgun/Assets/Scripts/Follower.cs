@@ -6,20 +6,21 @@ public class Follower : Enemy
 {
 
     float maxhealth = 3;
+    Player player;
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         health = maxhealth;
-        print("startb");
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-        health -= 1f/60f;
-        print("B");
     }
+
+    
 }
