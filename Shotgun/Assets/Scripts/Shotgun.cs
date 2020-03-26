@@ -11,6 +11,12 @@ public class Shotgun : MonoBehaviour
     int amountOfShots = 10;
     float spreadDegrees = 15;
     float bulletDamage = 1;
+    AudioSource shotGunFireSound;
+
+
+    void Start(){
+        shotGunFireSound = GetComponent<AudioSource>();
+    }
 
     public void Fire(){
         Vector3 pos = Input.mousePosition;
@@ -19,11 +25,13 @@ public class Shotgun : MonoBehaviour
         pos.y += transform.localScale.y / 2;
         pos -= transform.position;
         pos = pos.normalized;
-        pos.x *= shotLength; pos.z *= shotLength;
+
         for (int i = 0; i < amountOfShots; i++)
         {
             Vector3 thisPos = Quaternion.Euler(0,Random.Range(-spreadDegrees, spreadDegrees),0) * pos;
-            CastRay(thisPos);
+            float lineLength = CastRayAndReturnLength(thisPos);
+            thisPos.x *= lineLength; thisPos.z *= lineLength;
+            print(thisPos);
             thisPos += transform.position;
             Vector3[] positions = {thisPos, transform.position};
             LineRenderer newLine = Instantiate(lineRenderer, Vector3.zero, Quaternion.Euler(0,0,0));
@@ -32,6 +40,7 @@ public class Shotgun : MonoBehaviour
             newLine.startWidth = width; newLine.endWidth = width;
             StartCoroutine(ShotAnimation(newLine));
         }
+        shotGunFireSound.Play();
     }
 
     IEnumerator ShotAnimation(LineRenderer newLine){
@@ -43,11 +52,14 @@ public class Shotgun : MonoBehaviour
         Destroy(newLine.gameObject);
     }
 
-    void CastRay(Vector3 dir){
+    float CastRayAndReturnLength(Vector3 dir){
         Ray ray = new Ray(transform.position, dir);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, shotLength) && hitInfo.transform.gameObject.tag == "Enemy"){
             hitInfo.transform.gameObject.GetComponentInChildren<Enemy>().DoDamage(bulletDamage);
+            return hitInfo.distance;
         }
+
+        return shotLength;
     }
 }

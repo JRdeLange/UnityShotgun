@@ -23,9 +23,12 @@ public class Enemy : MonoBehaviour
 
     public void DoDamage(float damage){
         health -= damage;
+        if (health <= 0){
+            Death();
+        }
     }
 
     void Death(){
-        Destroy(gameObject);
+        DestroyImmediate(gameObject);
     }
 }
