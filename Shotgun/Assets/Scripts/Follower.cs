@@ -21,7 +21,7 @@ public class Follower : Enemy
     protected override void Update()
     {
         base.Update();
-        //Move();
+        Move();
     }
 
     void Move(){

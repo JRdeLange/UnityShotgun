@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     float halfScreenWidth;
     float halfScreenHeight;
     Constants constants;
-    float timeBetweenFollowers = 0.1f;
+    float timeBetweenFollowers = 0.9f;
     float nextFollowerSpawnTime;
 
     // Start is called before the first frame update
